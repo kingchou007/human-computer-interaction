@@ -61,8 +61,3 @@ function HandleFinger(finger) {
     // circle function (https://p5js.org/reference/#/p5/circle)
     circle(scaX, window.innerHeight - scaY, 100);   
 }
-
-
-
-
-

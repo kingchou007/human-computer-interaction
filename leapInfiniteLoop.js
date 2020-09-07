@@ -1,5 +1,6 @@
 var controllerOptions = {};
-// // var i = 0;
+// var i = 0;
+// var ranX, ranY;
 var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 var rawXMin = 300;
@@ -12,11 +13,17 @@ Leap.loop(controllerOptions, function(frame){
     // console.log(i)
     // i+=1
     clear();
-    // var ranX = Math.floor(Math.random()*2) - 1;
-    // var ranY = Math.floor(Math.random()*2) - 1;
+    // ranX = Math.floor(Math.random()*2) - 1;
+    // ranY = Math.floor(Math.random()*2) - 1;
     // circle(x + ranX, y + ranY, 100);
     HandleFrame(frame);
 });
+
+
+function HandleHand(hand) {
+    // clear
+    HandleFinger(hand.indexFinger); // index
+}
 
 
 function HandleFrame(frame) {
@@ -24,11 +31,6 @@ function HandleFrame(frame) {
         var hand = frame.hands[0];
         HandleHand(hand);
     }
-}
-
-
-function HandleHand(hand){
-    HandleFinger(hand.indexFingers); // index
 }
 
 
@@ -59,3 +61,8 @@ function HandleFinger(finger) {
     // circle function (https://p5js.org/reference/#/p5/circle)
     circle(scaX, window.innerHeight - scaY, 100);   
 }
+
+
+
+
+

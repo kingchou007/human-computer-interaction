@@ -64,13 +64,13 @@ function HandleBone(bone){
 
     if (bone.type == 0){
         strokeWeight(4);
-        stroke(210);
+        stroke(51);
     } else if (bone.type == 1){
         strokeWeight(3);
-        stroke(150);
+        stroke(51);
     } else if (bone.type == 2){
         strokeWeight(2);
-        stroke(50);
+        stroke(51);
     } else {
         strokeWeight(1);
         stroke(51);

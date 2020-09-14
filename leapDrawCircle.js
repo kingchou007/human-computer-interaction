@@ -21,8 +21,11 @@ Leap.loop(controllerOptions, function(frame){
 
 
 function HandleHand(hand) {
-    // clear
-    HandleFinger(hand.indexFinger); // index
+    // HandleFinger(hand.indexFinger);
+    var fingers = hand.fingers;
+    for (i=0; i<fingers.length; i++){
+        HandleFinger(fingers[i])
+    }
 }
 
 
@@ -41,7 +44,7 @@ function HandleFinger(finger) {
     if (x < rawXMin) {
         rawXMin = x;
     }
-    
+
     if (x > rawXMax) {
         rawXMax = x;
     }
@@ -53,11 +56,11 @@ function HandleFinger(finger) {
     if (y > rawYMax) {
         rawYMax = y;
     }
-    
+
     // scale value (https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges)
     var scaX  = window.innerWidth * ((x - rawXMin)/(rawXMax - rawXMin));
     var scaY  = window.innerHeight * ((y - rawYMin)/(rawYMax - rawYMin));
 
     // circle function (https://p5js.org/reference/#/p5/circle)
-    circle(scaX, window.innerHeight - scaY, 100);   
+    circle(scaX, window.innerHeight - scaY, 100);
 }

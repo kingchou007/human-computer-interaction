@@ -95,6 +95,5 @@ function TransformCoordinates(x,y) {
 
     var scaX = ((x - rawXMin)/(rawXMax - rawXMin)) * (window.innerWidth);
     var scaY = ((y - rawYMin)/(rawYMax - rawYMin)) * (window.innerHeight);
-
     return [scaX, scaY];
 }

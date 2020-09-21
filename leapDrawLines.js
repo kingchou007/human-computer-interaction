@@ -63,17 +63,17 @@ function HandleBone(bone){
     // circle(scaX, window.innerHeight - scaY, 50);
 
     if (bone.type == 0){
-        strokeWeight(13);
-        stroke(240);
-    } else if (bone.type == 1){
         strokeWeight(10);
-        stroke(160);
+        stroke(200);
+    } else if (bone.type == 1){
+        strokeWeight(8);
+        stroke(150);
     } else if (bone.type == 2){
-        strokeWeight(7);
-        stroke(90);
+        strokeWeight(6);
+        stroke(100);
     } else {
         strokeWeight(4);
-        stroke(51);
+        stroke(50);
     }
 
     line(newTipPosition[0], newTipPosition[1], newBasePostion[0], newBasePostion[1]);

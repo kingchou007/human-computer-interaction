@@ -63,16 +63,16 @@ function HandleBone(bone){
     // circle(scaX, window.innerHeight - scaY, 50);
 
     if (bone.type == 0){
-        strokeWeight(4);
-        stroke(51);
+        strokeWeight(13);
+        stroke(240);
     } else if (bone.type == 1){
-        strokeWeight(3);
-        stroke(51);
+        strokeWeight(10);
+        stroke(160);
     } else if (bone.type == 2){
-        strokeWeight(2);
-        stroke(51);
+        strokeWeight(7);
+        stroke(90);
     } else {
-        strokeWeight(1);
+        strokeWeight(4);
         stroke(51);
     }
 

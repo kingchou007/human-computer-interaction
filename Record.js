@@ -14,6 +14,7 @@ Leap.loop(controllerOptions, function(frame){
     clear();
     HandleFrame(frame);
     RecordData();
+    console.log();
     previousNumHands = currentNumHands;
 });
 
@@ -33,14 +34,6 @@ function HandleFrame(frame) {
 }
 
 
-function RecordData() {
-    if (previousNumHands == 1 && currentNumHands == 2) {
-        background(0)
-        console.log(oneFrameOfData.toString());
-    }
-}
-
-
 function HandleHand(hand, moreHands) {
     var fingers = hand.fingers;
     for (var i = 3; i >= 0; i -= 1) {
@@ -52,25 +45,23 @@ function HandleHand(hand, moreHands) {
 
 
 function HandleBone(bone, boneType, fingerIndex, moreHands) {
-    var x,y,z;
-    var x1,y1,z1;
-    var basePosition,tipPosition, newBasePostion, newTipPosition;
-    var positionType;
-    basePosition = bone.prevJoint;
-    tipPosition = bone.nextJoint;
+    var x1 = bone.nextJoint[0];
+    var y1 = bone.nextJoint[1];
+    var z1 = bone.nextJoint[2];
 
-    x = tipPosition[0];
-    y = tipPosition[1];
-    z = tipPosition[2];
-    x1 = basePosition[0];
-    y1 = basePosition[1];
-    z1 = basePosition[2];
+    var x2 = bone.prevJoint[0];
+    var y2 = bone.prevJoint[1];
+    var z2 = bone.prevJoint[2];
 
-    newBasePostion = TransformCoordinates(x1,z1-y1)
-    newTipPosition = TransformCoordinates(x,z-y)
-    positionType = (x + y + z + x1 + y1 + z1);
+    [x1, y1] = TransformCoordinates(x1, y1);
+    [x2, y2] = TransformCoordinates(x2, y2);
 
-    oneFrameOfData.set(fingerIndex, positionType);
+    oneFrameOfData.set(fingerIndex, boneType, 0, x1);
+    oneFrameOfData.set(fingerIndex, boneType, 1, y1);
+    oneFrameOfData.set(fingerIndex, boneType, 2, z1);
+    oneFrameOfData.set(fingerIndex, boneType, 3, x2);
+    oneFrameOfData.set(fingerIndex, boneType, 4, y2);
+    oneFrameOfData.set(fingerIndex, boneType, 5, z2);
 
     if (moreHands) {
         if (boneType == 0) {
@@ -102,8 +93,19 @@ function HandleBone(bone, boneType, fingerIndex, moreHands) {
         }
     }
 
-    line(newTipPosition[0], newTipPosition[1], newBasePostion[0], newBasePostion[1]);
+    // line(newTipPosition[0], newTipPosition[1], newBasePostion[0], newBasePostion[1]);
+    line(x1, window.innerHeight - y1, x2, window.innerHeight - y2, z1, z2);
 }
+
+
+function RecordData() {
+    if (previousNumHands == 2 && currentNumHands == 1) {
+        background(0)
+        console.log(oneFrameOfData.toString());
+
+    }
+}
+
 
 function TransformCoordinates(x,y) {
     if(x < rawXMin){
@@ -123,9 +125,4 @@ function TransformCoordinates(x,y) {
     var scaY = ((y - rawYMin)/(rawYMax - rawYMin)) * (window.innerHeight);
     return [scaX, scaY];
 }
-
-
-
-
-
 

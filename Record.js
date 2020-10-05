@@ -8,6 +8,8 @@ var previousNumHands = 0;
 var currentNumHands = 0;
 var moreHands;
 
+nj.config.printThreshold = 1000;
+
 
 Leap.loop(controllerOptions, function(frame){
     currentNumHands = frame.hands.length;
@@ -20,31 +22,33 @@ Leap.loop(controllerOptions, function(frame){
 
 
 function HandleFrame(frame) {
+    var interactionBox = frame.interactionBox;
+
     if (frame.hands.length == 1){
         moreHands = false;
         var hand = frame.hands[0];
-        HandleHand(hand, moreHands);
+        HandleHand(hand, moreHands, interactionBox);
     } else if (frame.hands.length > 1) {
         moreHands = true;
         var hand = frame.hands[0];
-        HandleHand(hand, moreHands);
+        HandleHand(hand, moreHands, interactionBox);
     } else {
         moreHands = false;
     }
 }
 
 
-function HandleHand(hand, moreHands) {
+function HandleHand(hand, moreHands, interactionBox) {
     var fingers = hand.fingers;
     for (var i = 3; i >= 0; i -= 1) {
         for (var j = 4; j >= 0; j -= 1) {
-            HandleBone(fingers[j].bones[i], fingers[j].bones[i].type, j, moreHands);
+            HandleBone(fingers[j].bones[i], fingers[j].bones[i].type, j, moreHands, interactionBox);
         }
     }
 }
 
 
-function HandleBone(bone, boneType, fingerIndex, moreHands) {
+function HandleBone(bone, boneType, fingerIndex, moreHands, interactionBox) {
     var x1 = bone.nextJoint[0];
     var y1 = bone.nextJoint[1];
     var z1 = bone.nextJoint[2];
@@ -52,6 +56,13 @@ function HandleBone(bone, boneType, fingerIndex, moreHands) {
     var x2 = bone.prevJoint[0];
     var y2 = bone.prevJoint[1];
     var z2 = bone.prevJoint[2];
+
+    var normalizedPrevJoint = interactionBox.normalizePoint(bone.prevJoint, true);
+    var normalizedNextJoint = interactionBox.normalizePoint(bone.nextJoint, true);
+
+    console.log("Normalized Prev Joint: " + normalizedPrevJoint);
+    console.log("Normalized Next Joint: " + normalizedNextJoint);
+
 
     [x1, y1] = TransformCoordinates(x1, y1);
     [x2, y2] = TransformCoordinates(x2, y2);
@@ -99,10 +110,16 @@ function HandleBone(bone, boneType, fingerIndex, moreHands) {
 
 
 function RecordData() {
+    if (previousNumHands == 1 && currentNumHands == 2) {
+        currentSample++;
+        if (currentSample >= numSamples) {
+            currentSample = 0;
+        }
+    }
     if (previousNumHands == 2 && currentNumHands == 1) {
         background(0)
         console.log(oneFrameOfData.toString());
-
+        console.log(currentSample)
     }
 }
 

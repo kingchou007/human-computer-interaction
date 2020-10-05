@@ -199,8 +199,8 @@ function Test() {
 function DrawCircles() {
     for (var i = 0; i < numSamples; i++) {
         row = irisData.pick(i);
-        x = row.get(0);
-        y = row.get(1);
+        x = row.get(0)*100;
+        y = row.get(1)*100;
         c = row.get(4);
 
         fill(colorMap[c]);
@@ -210,7 +210,7 @@ function DrawCircles() {
             stroke(colorMap[predictedClassLabels.get(i)]);
         }
 
-        circle(x * 100 , y * 100, 8);
+        circle(x, y, 8);
     }
 }
 

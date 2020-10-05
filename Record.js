@@ -9,7 +9,7 @@ var currentNumHands = 0;
 var moreHands;
 var numSamples = 2;
 var currentSample = 0;
-
+nj.config.printThreshold = 1000;
 
 Leap.loop(controllerOptions, function(frame){
     currentNumHands = frame.hands.length;
@@ -122,7 +122,8 @@ function RecordData() {
     }
     if (previousNumHands == 2 && currentNumHands == 1) {
         background(0)
-        console.log(frameOfData.pick(null, null, null, 1).toString());
+        console.log(framesOfData.toString());
+        console.log(currentSample);
     }
 }
 

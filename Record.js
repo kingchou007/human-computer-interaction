@@ -1,9 +1,9 @@
 var controllerOptions = {};
 var oneFrameOfData = nj.zeros([5,4,6]);
-var rawXMin = -10;
-var rawXMax = 20;
-var rawYMin = -10;
-var rawYMax = 20;
+// var rawXMin = -10;
+// var rawXMax = 20;
+// var rawYMin = -10;
+// var rawYMax = 20;
 var previousNumHands = 0;
 var currentNumHands = 0;
 var moreHands;
@@ -60,12 +60,18 @@ function HandleBone(bone, boneType, fingerIndex, moreHands, interactionBox) {
     var normalizedPrevJoint = interactionBox.normalizePoint(bone.prevJoint, true);
     var normalizedNextJoint = interactionBox.normalizePoint(bone.nextJoint, true);
 
-    console.log("Normalized Prev Joint: " + normalizedPrevJoint);
-    console.log("Normalized Next Joint: " + normalizedNextJoint);
+    var canvasPrevX = window.innerWidth * normalizedPrevJoint[0];
+    var canvasPrevY = window.innerHeight * (1 - normalizedPrevJoint[1]);
 
+    var canvasNextX = window.innerWidth * normalizedNextJoint[0];
+    var canvasNextY = window.innerHeight * (1 - normalizedNextJoint[1]);
 
-    [x1, y1] = TransformCoordinates(x1, y1);
-    [x2, y2] = TransformCoordinates(x2, y2);
+    console.log(window.innerWidth + window.innerHeight);
+    console.log( canvasPrevX + canvasPrevY);
+    console.log( canvasNextX + canvasNextY);
+
+    // [x1, y1] = TransformCoordinates(x1, y1);
+    // [x2, y2] = TransformCoordinates(x2, y2);
 
     oneFrameOfData.set(fingerIndex, boneType, 0, x1);
     oneFrameOfData.set(fingerIndex, boneType, 1, y1);
@@ -124,22 +130,22 @@ function RecordData() {
 }
 
 
-function TransformCoordinates(x,y) {
-    if(x < rawXMin){
-        rawXMin = x;
-    }
-    if(y < rawYMin){
-        rawYMin = y;
-    }
-    if(x > rawXMax){
-        rawXMax = x;
-    }
-    if(y > rawYMax){
-        rawYMax = y;
-    }
-
-    var scaX = ((x - rawXMin)/(rawXMax - rawXMin)) * (window.innerWidth);
-    var scaY = ((y - rawYMin)/(rawYMax - rawYMin)) * (window.innerHeight);
-    return [scaX, scaY];
-}
+// function TransformCoordinates(x,y) {
+//     if(x < rawXMin){
+//         rawXMin = x;
+//     }
+//     if(y < rawYMin){
+//         rawYMin = y;
+//     }
+//     if(x > rawXMax){
+//         rawXMax = x;
+//     }
+//     if(y > rawYMax){
+//         rawYMax = y;
+//     }
+//
+//     var scaX = ((x - rawXMin)/(rawXMax - rawXMin)) * (window.innerWidth);
+//     var scaY = ((y - rawYMin)/(rawYMax - rawYMin)) * (window.innerHeight);
+//     return [scaX, scaY];
+// }
 

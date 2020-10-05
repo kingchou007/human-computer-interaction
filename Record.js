@@ -11,7 +11,7 @@ var z2 = 0;
 var previousNumHands = 0;
 var currentNumHands = 0;
 var moreThanOneHand;
-var numSamples = 2;
+var numSamples = 100;
 var currentSample = 0;
 nj.config.printThreshold = 1000;
 var framesOfData = nj.zeros([5, 4, 6, numSamples]);
@@ -82,31 +82,31 @@ function HandleBone(bone, boneType, fingerIndex, moreThanOneHand, interactionBox
 
     if (moreThanOneHand) {
         if (boneType == 0) {
-            strokeWeight(8*3);
+            strokeWeight(12*3);
             stroke(255,0,0);
         } else if (boneType == 1) {
-            strokeWeight(6*3);
+            strokeWeight(8*3);
             stroke(207,0,0);
         } else if (boneType == 2) {
-            strokeWeight(4*3);
+            strokeWeight(5*3);
             stroke(158,0,0);
         } else {
             strokeWeight(2*3);
-            stroke(115,0,0);
+            stroke(0,0,0);
         }
     } else {
         if (boneType == 0) {
-            strokeWeight(8*3);
+            strokeWeight(12*3);
             stroke(0,255,0);
         } else if (boneType == 1) {
-            strokeWeight(6*3);
+            strokeWeight(8*3);
             stroke(0,207,0);
         } else if (boneType == 2) {
-            strokeWeight(4*3);
+            strokeWeight(5*3);
             stroke(0,158,0);
         } else {
             strokeWeight(2*3);
-            stroke(0,115,0);
+            stroke(0,0,0);
         }
     }
     line(canvasNextX, canvasNextY, canvasPrevX, canvasPrevY, z1, z2);

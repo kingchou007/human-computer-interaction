@@ -34,14 +34,10 @@ function HandleFrame(frame) {
         moreThanOneHand = false;
         var hand = frame.hands[0];
         HandleHand(hand, moreThanOneHand, interactionBox);
-        console.log(oneFrameOfData.toString);
-        Test();
     } else if (frame.hands.length > 1) {
         moreThanOneHand = true;
         var hand = frame.hands[0];
         HandleHand(hand, moreThanOneHand, interactionBox);
-        console.log(oneFrameOfData.toString);
-        Test();
     } else {
         moreThanOneHand = false;
     }
@@ -71,12 +67,12 @@ function HandleBone(bone, boneType, fingerIndex, moreThanOneHand, interactionBox
     y2 = normalizedPrevJoint[1];
     z2 = normalizedPrevJoint[2];
 
-    oneFrameOfData.set(fingerIndex, boneType, 0, x1);
-    oneFrameOfData.set(fingerIndex, boneType, 1, y1);
-    oneFrameOfData.set(fingerIndex, boneType, 2, z1);
-    oneFrameOfData.set(fingerIndex, boneType, 3, x2);
-    oneFrameOfData.set(fingerIndex, boneType, 4, y2);
-    oneFrameOfData.set(fingerIndex, boneType, 5, z2);
+    framesOfData.set(fingerIndex, boneType, 0, currentSample, x1);
+    framesOfData.set(fingerIndex, boneType, 1, currentSample, y1);
+    framesOfData.set(fingerIndex, boneType, 2, currentSample, z1);
+    framesOfData.set(fingerIndex, boneType, 3, currentSample, x2);
+    framesOfData.set(fingerIndex, boneType, 4, currentSample, y2);
+    framesOfData.set(fingerIndex, boneType, 5, currentSample, z2);
 
     var canvasPrevX = window.innerWidth * normalizedPrevJoint[0];
     var canvasPrevY = window.innerHeight * (1 - normalizedPrevJoint[1]);

@@ -1,9 +1,9 @@
 var controllerOptions = {};
 const knnClassifier = ml5.KNNClassifier();
 var trainingCompleted = false;
-// var numSamples = 2;
-var testingSampleIndex = 0;
-var predictedClassLabels = nj.zeros(2);
+var numSamples = 2;
+// var testingSampleIndex = 0;
+var predictedClassLabels = nj.zeros([numSamples]);
 var moreThanOneHand;
 var x = window.innerWidth / 2;
 var y = window.innerHeight / 2;
@@ -64,9 +64,9 @@ function GotResults(err, result){
     // }
     var currentPrediction = result.label;
     predictedClassLabels.set(parseInt(result.label));
-    numPrediction += 1;
-    meanPredictionAccuracy = (((numPrediction-1)*meanPredictionAccuracy) + (currentPrediction == digitTested))/numPrediction;
-    console.log(numPrediction + " " + meanPredictionAccuracy + " " + currentPrediction);
+    numOfPredictions += 1;
+    meanPredictionAccuracy = (((numOfPredictions-1)*meanPredictionAccuracy) + (currentPrediction == digitTested))/numOfPredictions;
+    console.log(numOfPredictions + " " + meanPredictionAccuracy + " " + currentPrediction);
 
 }
 

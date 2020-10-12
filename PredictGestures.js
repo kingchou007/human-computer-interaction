@@ -16,6 +16,10 @@ var y2 = window.innerHeight / 2;
 var z2 = 0;
 var oneFrameOfData = nj.zeros([5, 4, 6]);
 
+var meanPredictionAccuracy = 0;
+var numOfPredictions = 0;
+var digitTested = 2;
+
 
 // function draw(){
 Leap.loop(controllerOptions, function(frame) {
@@ -48,16 +52,22 @@ function Test(){
     knnClassifier.classify(currentFeatures.tolist(),GotResults);
 }
 
+
 function GotResults(err, result){
     // console.log(result.label);
     // predictedClassLabels.set(parseInt(result.label));
+    // predictedClassLabels.set(testingSampleIndex, parseInt(result.label));
     // console.log(testingSampleIndex + " " + result.label);
-    predictedClassLabels.set(testingSampleIndex, parseInt(result.label));
-    console.log(testingSampleIndex + " " + result.label);
-    testingSampleIndex += 1;
-    if (testingSampleIndex > 99){
-        testingSampleIndex = 0;
-    }
+    // testingSampleIndex += 1;
+    // if (testingSampleIndex > 99){
+    //     testingSampleIndex = 0;
+    // }
+    var currentPrediction = result.label;
+    predictedClassLabels.set(parseInt(result.label));
+    numPrediction += 1;
+    meanPredictionAccuracy = (((numPrediction-1)*meanPredictionAccuracy) + (currentPrediction == digitTested))/numPrediction;
+    console.log(numPrediction + " " + meanPredictionAccuracy + " " + currentPrediction);
+
 }
 
 

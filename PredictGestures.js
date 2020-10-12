@@ -5,6 +5,7 @@ var testingSampleIndex = 0;
 // var predictedClassLabels = nj.zeros(2);
 var controllerOptions;
 var moreThanOneHand;
+var oneFrameOfData = nj.zeros([5, 4, 6]);
 
 // function draw(){
 Leap.loop(controllerOptions, function(frame){
@@ -43,9 +44,6 @@ function GotResults(err, result){
     }
 
 
-}
-
-function DrawCircles(){
 }
 
 

@@ -54,11 +54,11 @@ function Test(){
 }
 
 function centerData() {
+    // shifts x
     xValues = framesOfData.slice([],[],[0,6,3]);
     var currentMean = xValues.mean();
     var horizontalShift = 0.5 - currentMean;
     console.log("x " + currentMeanX);
-    // shifts x
     for (var i = 0; i < 5; i++) {
         for (var j = 0; j < 4; j++) {
             var currentX = oneFrameOfData.get(i, j, 0);
@@ -67,6 +67,21 @@ function centerData() {
             currentX = oneFrameOfData.get(i, j, 3);
             shiftedX = currentX + horizontalShift;
             oneFrameOfData.set(i, j, 3, shiftedX);
+        }
+    }
+
+    // shifts y
+    var yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    var YcurrentMean = yValues.mean();
+    var verticalShift = (0.5 - YcurrentMean);
+    for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 4; j++) {
+            var currentY = oneFrameOfData.get(i, j, 1);
+            var shiftedY = currentY + verticalShift;
+            oneFrameOfData.set(i, j, 1, shiftedY);
+            currentY = oneFrameOfData.get(i, j, 4);
+            shiftedY = currentY + verticalShift;
+            oneFrameOfData.set(i, j, 4, shiftedY);
         }
     }
 

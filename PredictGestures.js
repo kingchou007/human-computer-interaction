@@ -55,10 +55,10 @@ function Test(){
 
 function centerData() {
     // shifts x
-    xValues = framesOfData.slice([],[],[0,6,3]);
+    xValues = oneFrameOfData.slice([],[],[0,6,3]);
     var currentMean = xValues.mean();
     var horizontalShift = 0.5 - currentMean;
-    console.log("x " + currentMeanX);
+    console.log("x " + currentMean);
     for (var i = 0; i < 5; i++) {
         for (var j = 0; j < 4; j++) {
             var currentX = oneFrameOfData.get(i, j, 0);
@@ -74,6 +74,7 @@ function centerData() {
     var yValues = oneFrameOfData.slice([],[],[1,6,3]);
     var YcurrentMean = yValues.mean();
     var verticalShift = (0.5 - YcurrentMean);
+    // console.log("y " + YcurrentMean);
     for (var i = 0; i < 5; i++) {
         for (var j = 0; j < 4; j++) {
             var currentY = oneFrameOfData.get(i, j, 1);
@@ -97,11 +98,13 @@ function GotResults(err, result){
     // if (testingSampleIndex > 99){
     //     testingSampleIndex = 0;
     // }
+
+    // part b
     var currentPrediction = result.label;
     predictedClassLabels.set(parseInt(result.label));
     numOfPredictions += 1;
     meanPredictionAccuracy = (((numOfPredictions-1)*meanPredictionAccuracy) + (currentPrediction == digitTested))/numOfPredictions;
-    console.log(numOfPredictions + " " + meanPredictionAccuracy + " " + currentPrediction);
+    // console.log(numOfPredictions + " " + meanPredictionAccuracy + " " + currentPrediction);
 
 }
 

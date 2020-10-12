@@ -3,6 +3,7 @@ var trainingCompleted = false;
 var numSamples = 2;
 var testingSampleIndex = 0;
 // var predictedClassLabels = nj.zeros(2);
+var controllerOptions;
 
 // function draw(){
 Leap.loop(controllerOptions, function(frame){

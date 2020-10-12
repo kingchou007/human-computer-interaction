@@ -2,16 +2,16 @@ const knnClassifier = ml5.KNNClassifier();
 var trainingCompleted = false;
 var numSamples = 2;
 var testingSampleIndex = 0;
-var predictedClassLabels = nj.zeros(2);
+// var predictedClassLabels = nj.zeros(2);
 
-function draw(){
+// function draw(){
+Leap.loop(controllerOptions, function(frame){
     clear();
     if (trainingCompleted == false){
         Train();
     }
     Test();
-
-}
+});
 
 function Train(){
     trainingCompleted = true;

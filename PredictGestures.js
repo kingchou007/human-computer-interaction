@@ -18,7 +18,7 @@ var oneFrameOfData = nj.zeros([5, 4, 6]);
 
 var meanPredictionAccuracy = 0;
 var numOfPredictions = 0;
-var digitTested = 2;
+var digitTested = 0;
 
 
 // function draw(){
@@ -58,7 +58,7 @@ function centerData() {
     xValues = oneFrameOfData.slice([],[],[0,6,3]);
     var currentMean = xValues.mean();
     var horizontalShift = 0.5 - currentMean;
-    console.log("x " + currentMean);
+    // console.log("x " + currentMean);
     for (var i = 0; i < 5; i++) {
         for (var j = 0; j < 4; j++) {
             var currentX = oneFrameOfData.get(i, j, 0);
@@ -83,6 +83,22 @@ function centerData() {
             currentY = oneFrameOfData.get(i, j, 4);
             shiftedY = currentY + verticalShift;
             oneFrameOfData.set(i, j, 4, shiftedY);
+        }
+    }
+
+    // shifts z
+    var zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    var ZcurrentMean = zValues.mean();
+    var ZShift = (0.5 - ZcurrentMean);
+    // console.log("z " + ZcurrentMean);
+    for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 4; j++) {
+            var currentZ = oneFrameOfData.get(i, j, 2);
+            var shiftedZ = currentZ + ZShift;
+            oneFrameOfData.set(i, j, 2, shiftedZ);
+            currentZ = oneFrameOfData.get(i, j, 5);
+            shiftedZ = currentZ + ZShift;
+            oneFrameOfData.set(i, j, 5, shiftedZ);
         }
     }
 

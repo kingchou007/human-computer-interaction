@@ -130,5 +130,6 @@ function HandleBone(bone, boneType, fingerIndex, moreThanOneHand, interactionBox
             stroke(0,0,0);
         }
     }
+
     line(canvasNextX, canvasNextY, canvasPrevX, canvasPrevY, z1, z2);
 }

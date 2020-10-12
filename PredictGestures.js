@@ -54,6 +54,9 @@ function Test(){
 }
 
 function centerData() {
+    xValues = framesOfData.slice([],[],[0,6,3]);
+    var currentMean = xValues.mean();
+    var horizontalShift = 0.5 - currentMean;
 
 }
 

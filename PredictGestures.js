@@ -45,11 +45,16 @@ function Train(){
 }
 
 function Test(){
+    centerData();
     // var currentFeatures =  oneFrameOfData.pick(null,null,null,testingSampleIndex).reshape(1, 120);
     var currentFeatures =  oneFrameOfData.pick(null,null,null).reshape(1,120);
     var currentLabel =  0;
     var predictedLabel = knnClassifier.classify(currentFeatures.tolist());
     knnClassifier.classify(currentFeatures.tolist(),GotResults);
+}
+
+function centerData() {
+
 }
 
 

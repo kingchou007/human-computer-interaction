@@ -1,9 +1,11 @@
 var controllerOptions = {};
 const knnClassifier = ml5.KNNClassifier();
 var trainingCompleted = false;
-var numSamples = 2;
+// var numSamples = 2;
+var currentLabel;
+var predictedLabel;
 // var testingSampleIndex = 0;
-var predictedClassLabels = nj.zeros([numSamples]);
+var predictedClassLabels = nj.zeros(2);
 var moreThanOneHand;
 var x = window.innerWidth / 2;
 var y = window.innerHeight / 2;
@@ -38,20 +40,12 @@ function Train(){
     for (var i = 0; i < train0.shape[3]; i++) {
         var features = train0.pick(null,null,null,i).reshape(1,120);
         knnClassifier.addExample(features.tolist(),0);
-        features = train2.pick(null,null,null,i).reshape(1,120);
-        knnClassifier.addExample(features.tolist(),2);
+        var features1 = train2.pick(null,null,null,i).reshape(1,120);
+        knnClassifier.addExample(features1.tolist(),2);
         // console.log(tensorIterator + " " + features.toString());
     }
 }
 
-function Test(){
-    centerData();
-    // var currentFeatures =  oneFrameOfData.pick(null,null,null,testingSampleIndex).reshape(1, 120);
-    var currentFeatures =  oneFrameOfData.pick(null,null,null).reshape(1,120);
-    var currentLabel =  0;
-    var predictedLabel = knnClassifier.classify(currentFeatures.tolist());
-    knnClassifier.classify(currentFeatures.tolist(),GotResults);
-}
 
 function centerData() {
     // shifts x
@@ -89,7 +83,7 @@ function centerData() {
     // shifts z
     var zValues = oneFrameOfData.slice([],[],[2,6,3]);
     var ZcurrentMean = zValues.mean();
-    var ZShift = (0.5 - ZcurrentMean);
+    var ZShift = (1.0 - ZcurrentMean);
     // console.log("z " + ZcurrentMean);
     for (var i = 0; i < 5; i++) {
         for (var j = 0; j < 4; j++) {
@@ -105,6 +99,14 @@ function centerData() {
 }
 
 
+function Test(){
+    centerData();
+    // var currentFeatures =  oneFrameOfData.pick(null,null,null,testingSampleIndex).reshape(1, 120);
+    var currentFeatures =  oneFrameOfData.pick(null,null,null).reshape(1,120);
+    predictedLabel = knnClassifier.classify(currentFeatures.tolist(), GotResults);
+}
+
+
 function GotResults(err, result){
     // console.log(result.label);
     // predictedClassLabels.set(parseInt(result.label));
@@ -116,11 +118,11 @@ function GotResults(err, result){
     // }
 
     // part b
-    var currentPrediction = result.label;
     predictedClassLabels.set(parseInt(result.label));
+    var currentPrediction = result.label;
     numOfPredictions += 1;
-    meanPredictionAccuracy = (((numOfPredictions-1)*meanPredictionAccuracy) + (currentPrediction == digitTested))/numOfPredictions;
-    // console.log(numOfPredictions + " " + meanPredictionAccuracy + " " + currentPrediction);
+    meanPredictionAccuracy = ((((numOfPredictions - 1) * meanPredictionAccuracy) + (currentPrediction == digitTested)) / numOfPredictions);
+    console.log(numOfPredictions + " " + meanPredictionAccuracy + " " + currentPrediction);
 
 }
 

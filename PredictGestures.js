@@ -1,20 +1,31 @@
+var controllerOptions = {};
 const knnClassifier = ml5.KNNClassifier();
 var trainingCompleted = false;
-var numSamples = 2;
+// var numSamples = 2;
 var testingSampleIndex = 0;
-// var predictedClassLabels = nj.zeros(2);
-var controllerOptions;
+var predictedClassLabels = nj.zeros(2);
 var moreThanOneHand;
+var x = window.innerWidth / 2;
+var y = window.innerHeight / 2;
+var z = 0;
+var x1 = window.innerWidth / 2;
+var y1 = window.innerHeight / 2;
+var z1 = 0;
+var x2 = window.innerWidth / 2;
+var y2 = window.innerHeight / 2;
+var z2 = 0;
 var oneFrameOfData = nj.zeros([5, 4, 6]);
 
+
 // function draw(){
-Leap.loop(controllerOptions, function(frame){
+Leap.loop(controllerOptions, function(frame) {
     clear();
     if (trainingCompleted == false){
         Train();
     }
     HandleFrame(frame);
-    Test();
+    // console.log(oneFrameOfData.toString())
+    // Test();
 });
 
 // Train 0 and 2
@@ -25,25 +36,28 @@ function Train(){
         knnClassifier.addExample(features.tolist(),0);
         features = train2.pick(null,null,null,i).reshape(1,120);
         knnClassifier.addExample(features.tolist(),2);
+        // console.log(tensorIterator + " " + features.toString());
     }
 }
 
 function Test(){
-    var currentFeatures =  test.pick(null,null,null,testingSampleIndex).reshape(1,120);
+    // var currentFeatures =  oneFrameOfData.pick(null,null,null,testingSampleIndex).reshape(1, 120);
+    var currentFeatures =  oneFrameOfData.pick(null,null,null).reshape(1,120);
     var currentLabel =  0;
     var predictedLabel = knnClassifier.classify(currentFeatures.tolist());
     knnClassifier.classify(currentFeatures.tolist(),GotResults);
 }
 
 function GotResults(err, result){
-    console.log(testingSampleIndex + ": " + result.label);
+    // console.log(result.label);
+    // predictedClassLabels.set(parseInt(result.label));
+    // console.log(testingSampleIndex + " " + result.label);
     predictedClassLabels.set(testingSampleIndex, parseInt(result.label));
+    console.log(testingSampleIndex + " " + result.label);
     testingSampleIndex += 1;
     if (testingSampleIndex > 99){
         testingSampleIndex = 0;
     }
-
-
 }
 
 
@@ -53,10 +67,14 @@ function HandleFrame(frame) {
         moreThanOneHand = false;
         var hand = frame.hands[0];
         HandleHand(hand, moreThanOneHand, interactionBox);
+        //console.log(oneFrameOfData.toString());
+        Test();
     } else if (frame.hands.length > 1) {
         moreThanOneHand = true;
         var hand = frame.hands[0];
         HandleHand(hand, moreThanOneHand, interactionBox);
+        //console.log(oneFrameOfData.toString());
+        Test();
     } else {
         moreThanOneHand = false;
     }
@@ -86,12 +104,12 @@ function HandleBone(bone, boneType, fingerIndex, moreThanOneHand, interactionBox
     y2 = normalizedPrevJoint[1];
     z2 = normalizedPrevJoint[2];
 
-    framesOfData.set(fingerIndex, boneType, 0, currentSample, x1);
-    framesOfData.set(fingerIndex, boneType, 1, currentSample, y1);
-    framesOfData.set(fingerIndex, boneType, 2, currentSample, z1);
-    framesOfData.set(fingerIndex, boneType, 3, currentSample, x2);
-    framesOfData.set(fingerIndex, boneType, 4, currentSample, y2);
-    framesOfData.set(fingerIndex, boneType, 5, currentSample, z2);
+    oneFrameOfData.set(fingerIndex, boneType, 0, x1);
+    oneFrameOfData.set(fingerIndex, boneType, 1, y1);
+    oneFrameOfData.set(fingerIndex, boneType, 2, z1);
+    oneFrameOfData.set(fingerIndex, boneType, 3, x2);
+    oneFrameOfData.set(fingerIndex, boneType, 4, y2);
+    oneFrameOfData.set(fingerIndex, boneType, 5, z2);
 
     var canvasPrevX = window.innerWidth * normalizedPrevJoint[0];
     var canvasPrevY = window.innerHeight * (1 - normalizedPrevJoint[1]);

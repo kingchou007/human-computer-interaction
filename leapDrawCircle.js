@@ -1,6 +1,4 @@
 var controllerOptions = {};
-// var i = 0;
-// var ranX, ranY;
 var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 var rawXMin = 300;
@@ -10,18 +8,12 @@ var rawYMax = -300;
 
 
 Leap.loop(controllerOptions, function(frame){
-    // console.log(i)
-    // i+=1
     clear();
-    // ranX = Math.floor(Math.random()*2) - 1;
-    // ranY = Math.floor(Math.random()*2) - 1;
-    // circle(x + ranX, y + ranY, 100);
     HandleFrame(frame);
 });
 
 
 function HandleHand(hand) {
-    // HandleFinger(hand.indexFinger);
     var fingers = hand.fingers;
     for (i=0; i<fingers.length; i++){
         HandleFinger(fingers[i])

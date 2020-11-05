@@ -1,17 +1,10 @@
 var controllerOptions = {};
-// var i = 0;
-// var ranX, ranY;
 var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 var rawXMin = -10;
 var rawXMax = 20;
 var rawYMin = -10;
 var rawYMax = 20;
-// var rawXMin = 300;
-// var rawYMin = 300;
-// var rawXMax = -300;
-// var rawYMax = -300;
-
 
 Leap.loop(controllerOptions, function(frame){
     clear();

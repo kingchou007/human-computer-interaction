@@ -33,12 +33,6 @@ Leap.loop(controllerOptions, function(frame){
     }
 })
 
-function compute_prediction_7(c,d){
-    n++
-    m = (((n-1)*m) + (c==d))/n
-    console.log(n,m,c)
-}
-
 function Test(){
     var currentFeatures = oneFrameOfData
     currentFeatures = currentFeatures.reshape(1,120)
@@ -75,10 +69,7 @@ function CenterDataZ(){
 
 function HandleFrame(frame){
     clear();
-
-    //one hand over the device
     if(frame.hands.length >= 1){
-        // first element in the hands
         var hand = frame.hands[0];
         var interactionBox = frame.interactionBox;
         HandleHand(hand,interactionBox);
@@ -86,9 +77,7 @@ function HandleFrame(frame){
 }
 
 function HandleHand(hand,interactionBox){
-    //fingers element
     var fingers = hand.fingers;
-    //iterrate each finger
     for(var n = 3; 0 <=n; --n){
         for(var i=0; i <fingers.length; i++){
             HandleFinger(fingers[i],n,i,interactionBox)
@@ -130,7 +119,6 @@ function HandleBone(bone,type,fingerIndex,interactionBox){
     var canvasYStart = (window.innerHeight * (1-y_start)) * 0.5;
     var canvasYEnd =  (window.innerHeight * (1-y_end)) * 0.5;
 
-    //line and line weight
     switch(type){
         case 0:
             strokeWeight(12*3)
@@ -262,7 +250,6 @@ function TrainKNNIfNotDoneYet() {
 
 
 function Train(){
-    // Train the dataset
     trainingCompleted = true;
     for (var i = 0; i < train0.shape[3]; i++) {
         features0 = train0.pick(null,null,null,i);
@@ -355,60 +342,14 @@ function Train(){
 
 }
 
-
-// function SignIn(){
-//     var username = document.getElementById('username').value;
-//     var list = document.getElementById('users');
-//     if(IsNewUser(username, list)){
-//         var item = document.createElement('li');
-//         item.innerHTML = String(username);
-//         list.appendChild(item);
-//     }else {
-//         var ID = String(username) + "_signins";
-//         var listItem = document.getElementById(ID);
-//         listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
-//
-//     }
-//     console.log(list.innerHTML);
-//     return false;
-// }
-//
-//
-// function IsNewUser(username, list) {
-//     var usernameFound = false;
-//     var users = list.children;
-//     for (var i = 0; i < users.length; i++) {
-//         if (username == users[i].innerHTML){
-//             usernameFound = true;
-//         }
-//     }
-//     return usernameFound == false;
-// }
-//
-// function CreateNewUser(username,list){
-//     var item = document.createElement('li');
-//     item.id = String(username) + "_name";
-//     item.innerHTML = String(username);
-//     list.appendChild(item);
-// }
-//
-//
-// function CreateSignInItem(username,list){
-//     var item2 = document.createElement('li');
-//     item2.id = String(username) + "_signins";
-//     item2.innerHTML = 1;
-//     list.appendChild(item2);
-// }
 function SignIn(){
     username = document.getElementById('username').value;
     var list = document.getElementById('users');
     if(IsNewUser(username, list)){
         CreateNewUser(username,list)
         CreateSignInItem(username,list)
-    } else { //Returing User
-        //ID tag for the list item user’s number of sign in attempts
+    } else {
         var ID = String(username) + "_signins";
-        //Will return such an item.
         var listItem = document.getElementById(ID);
         listItem.innerHTML = parseInt (listItem.innerHTML) + 1;
     }
@@ -429,14 +370,13 @@ function IsNewUser(username, list) {
 }
 
 function CreateNewUser(username,list){
-    //Creating an html list item
     var item = document.createElement('li');
     item.id = String(username) + "_name";
     item.innerHTML = String(username);
     list.appendChild(item);
 }
+
 function CreateSignInItem(username,list){
-    //Creating a 2nd list item (keep track of signins)
     var item2 = document.createElement('li');
     item2.id = String(username) + "_signins";
     item2.innerHTML = 1;

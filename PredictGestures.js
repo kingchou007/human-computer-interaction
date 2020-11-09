@@ -236,6 +236,7 @@ function HandleState1(frame) {
 }
 
 function HandleState2(frame) {
+    DetermineWhetherToSwitchDigits();
     HandleFrame(frame);
     DrawLowerRightPanel();
 }
@@ -393,6 +394,15 @@ function DrawLowerRightPanel(){
         image(n2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2);
     }
 }
+
+function DetermineWhetherToSwitchDigits() {
+    if (digitToShow == 0) {
+        digitToShow = 1;
+    } else if (digitToShow == 1) {
+        digitToShow = 0;
+    }
+}
+
 
 
 

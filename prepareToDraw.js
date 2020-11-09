@@ -19,6 +19,6 @@ function setup() {
     arrowLeft = loadImage('https://i.imgur.com/YFXuaXu.jpg');
     arrowDown = loadImage('https://i.imgur.com/6gNfGbL.jpg');
     arrowUp = loadImage('https://i.imgur.com/7MedbAa.jpg');
-    n0 = loadImage('https://i.imgur.com/B0BJfCO.png');
-    n2 = loadImage('https://i.imgur.com/MHlWfkC.png');
+    n0 = loadImage('https://i.imgur.com/OzbNmdk.png');
+    n2 = loadImage('https://i.imgur.com/BXG9Zs7.png');
 }

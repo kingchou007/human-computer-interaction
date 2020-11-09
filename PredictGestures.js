@@ -17,7 +17,10 @@ var n = 0;
 var m = 0;
 var d = 1;
 var programState = 0;
+
+// Del_09 update
 var digitToShow = 0;
+var timeSinceLastDigitChange = new Date();
 
 
 Leap.loop(controllerOptions, function(frame){
@@ -386,22 +389,44 @@ function CreateSignInItem(username,list){
     list.appendChild(item2);
 }
 
-// Del_09
+/*------------------------Del_09--------------------------*/
 function DrawLowerRightPanel(){
     if (digitToShow == 0) {
         image(n0, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2);
-    } else {
+    } else if(digitToShow == 2) {
         image(n2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2);
     }
 }
 
 function DetermineWhetherToSwitchDigits() {
+    if(TimeToSwitchDigits() == true){ // fix the problem here
+        SwitchDigits();
+    }
+}
+
+
+function SwitchDigits(){
+    timeSinceLastDigitChange = Date.now();
     if (digitToShow == 0) {
-        digitToShow = 1;
-    } else if (digitToShow == 1) {
+        digitToShow = 2;
+    } else if (digitToShow == 2) {
         digitToShow = 0;
     }
 }
+
+function TimeToSwitchDigits(){
+    var currentTime = new Date();
+    var TimeInMilliseconds = currentTime - timeSinceLastDigitChange;
+    var TimeinSeconds = TimeInMilliseconds / 1000;
+    if (TimeinSeconds > 1) {
+        timeSinceLastDigitChange = new Date();
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
 
 
 

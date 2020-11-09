@@ -17,6 +17,7 @@ var n = 0;
 var m = 0;
 var d = 1;
 var programState = 0;
+var digitToShow = 0;
 
 
 Leap.loop(controllerOptions, function(frame){
@@ -236,6 +237,7 @@ function HandleState1(frame) {
 
 function HandleState2(frame) {
     HandleFrame(frame);
+    DrawLowerRightPanel();
 }
 
 function DrawImageToHelpUserPutTheirHandOverTheDevice(){
@@ -341,7 +343,7 @@ function Train(){
     }
 
 }
-
+// Del_08
 function SignIn(){
     username = document.getElementById('username').value;
     var list = document.getElementById('users');
@@ -382,5 +384,16 @@ function CreateSignInItem(username,list){
     item2.innerHTML = 1;
     list.appendChild(item2);
 }
+
+// Del_09
+function DrawLowerRightPanel(){
+    if (digitToShow == 0) {
+        image(n0, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2);
+    } else {
+        image(n2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2, window.innerWidth / 2);
+    }
+}
+
+
 
 

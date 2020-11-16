@@ -35,4 +35,5 @@ function setup() {
     n7 = loadImage('https://i.imgur.com/584BI6a.png');
     n8 = loadImage('https://i.imgur.com/oRvjudV.png');
     n9 = loadImage('https://i.imgur.com/Uko99bk.png');
+
 }

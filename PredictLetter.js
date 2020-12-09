@@ -20,28 +20,120 @@ var currentSample = 0;
 var predictedClassLabels = nj.zeros(2);
 var n = 0;
 var m = 0;
-var d = 0;
+var d = 3;
 var programState = 0;
 var digitToShow = 0;
 var timeSinceLastDigitChange = new Date();
 
-function SignIn(){
+var mathGameActive = true;
+
+// averages and times shown for currently logged in player
+// var digitAverages = [];
+// var timesDigitShown =[];
+// var allScores = {};
+// var averageM = 0;
+
+// var answerCorrect = false;
+var score = 0;
+var firstOperand;
+var secondOperand;
+
+var actualAnswer = -1;
+var userAnswer;
+
+// var allScores = [];
+// var allUsers =[]
+
+var zero = [0,false];
+var one = [1,false];
+var two = [2,false];
+var three = [3,false];
+var four = [4,false];
+var five = [5,false];
+var six = [6,false];
+var seven = [7,false];
+var eight = [8,false];
+var nine = [9,false];
+var comebackto = [];
+var numlist = [zero,one,two,three,four,five,six,seven,eight,nine];
+var startshowingonlynumbers = false;
+
+var time0 = 6;
+var time1 = 6;
+var time2 = 6;
+var time3 = 6;
+var time4 = 6;
+var time5 = 6;
+var time6 = 6;
+var time7 = 6;
+var time8 = 6;
+var time9 = 6;
+var timetogo = 6;
+var times = [time0,time1,time2,time3,time4,time5,time6,time7,time8,time9];
+
+
+
+
+function SignIn() {
     username = document.getElementById('username').value;
     var list = document.getElementById('users');
-    if(IsNewUser(username, list)){
-        CreateNewUser(username,list)
-        CreateSignInItem(username,list)
-    } else { //Returing User
+    if (IsNewUser(username , list)) {
+        CreateNewUser(username , list)
+        CreateSignInItem(username , list)
+    } else {
         //ID tag for the list item user’s number of sign in attempts
         var ID = String(username) + "_signins";
         //Will return such an item.
         var listItem = document.getElementById(ID);
-        listItem.innerHTML = parseInt (listItem.innerHTML) + 1;
+        listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
     }
     console.log(list.innerHTML);
-    return false;
+
+    // store user
+    var users = document.getElementById("ID").getElementsByTagName("input");
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].value.length > 0) {
+            allUsers.push(users[i].value);
+            console.log(allUsers);
+            // document.getElementById("output_box").innerHTML = "Users: " + allUsers;
+        }
+    }
+
 
 }
+
+function storeUser(){
+
+}
+
+function RecordUserData(){
+    // if(DigitToShow == 0) {
+    //     if (TimeToSwitchDigits()) {
+    //         var arrScores = arr.push(m);
+    //         document.getElementById("output_box").innerHTML = "Scores: " + arrScores;
+    //     }
+    // }else if(DigitToShow == 1){
+    //     if(TimeToSwitchDigits()){
+    //         var arrScores = arr.push(m);
+    //         document.getElementById("output_box").innerHTML = "Scores: " + arrScores;
+    //     }
+    // }else if(DigitToShow == 2){
+    //     if(TimeToSwitchDigits()){
+    //         var arrScores = arr.push(m);
+    //         document.getElementById("output_box").innerHTML = "Scores: " + arrScores;
+    //     }
+    // }
+    // else if(DigitToShow == 3){
+    //     if(TimeToSwitchDigits()){
+    //         var arrScores = arr.push(m);
+    //         document.getElementById("output_box").innerHTML = "Scores: " + arrScores;
+    //     }
+    // }
+    // var averageScore = Math.floor(m * 4)/4;
+    // document.getElementById("output_box").innerHTML = "Avg Score:" + averageScore;
+
+}
+
 
 function IsNewUser(username, list) {
     var usernameFound = false;
@@ -75,16 +167,48 @@ function Test(){
     CenterDataX()
     CenterDataY()
     CenterDataZ()
+    //currentLabel = digitToShow;
     currentTestingSample = currentTestingSample.reshape(120).tolist();
+    //console.log(currentTestingSample)
     knnClassifier.classify(currentTestingSample, GotResults);
 }
 
 function GotResults(err, result){
     var c = result.label;
+
     predictedClassLabels.set(parseInt(result.label));
     n += 1;
     m = (((n-1)*m) + (c == digitToShow))/n;
-    console.log(n + " " + m + " " + c);
+
+    var aslLetter;
+    if (c == 0){
+        aslLetter = "A";
+    } else if (c == 1){
+        aslLetter = "B";
+    } else if (c == 2){
+        aslLetter = "C";
+    } else if (c == 3){
+        aslLetter = "D";
+    } else if (c == 4){
+        aslLetter = "E";
+    } else if (c == 5){
+        aslLetter = "F";
+    }
+    console.log(m.toFixed(4) + " " + c+ ":" + aslLetter);
+    var am = m;
+    am = am.toFixed(2); // round
+    var status;
+    if(m>0.9) {
+        status = "Awesome! Nice Work!";
+    }else if(m>0.7){
+        status = "Good, keep this gesture";
+    }else if(m>0.5){
+        status ="Please continue to adjust your gesture";
+    }else{
+        status ="Your gesture might be wrong, please refer to the picture on the right"
+    }
+    // print information on lower left panel(real-time)
+    document.getElementById("output_box").innerHTML = "Real-time Accuracy: " + am + "<br>Predict ASL-letter: " + aslLetter + "<br>Note: " + status;
 }
 
 function CenterDataX(){
@@ -107,8 +231,6 @@ function CenterDataZ(){
     var currentMean = zValues.mean()
     //console.log(currentMean)
     return currentMean
-
-
 }
 
 
@@ -175,25 +297,29 @@ function HandleBone(bone,type,fingerIndex,interactionBox){
     var canvasYEnd =  (window.innerHeight * (1-y_end)) * 0.5;
 
     //line and line weight
-    var green = m * 450;
+    var yellow = m * 450;
     var red = (1 - m) * 450;
     if (type == 0) {
-        stroke(red, green, 0);
-        strokeWeight(12*3);
+        stroke(red, yellow, 0);
+        strokeWeight(20);
+
         line(canvasXStart,canvasYStart,canvasXEnd,canvasYEnd);
     } else if (type == 1) {
-        stroke(red, green, 0);
-        strokeWeight(8*3);
+        stroke(red, yellow, 0);
+        strokeWeight(15);
         line(canvasXStart,canvasYStart,canvasXEnd,canvasYEnd);
     } else if (type == 2) {
-        stroke(red, green, 0);
-        strokeWeight(5*3);
+        stroke(red, yellow, 0);
+        strokeWeight(10);
         line(canvasXStart,canvasYStart,canvasXEnd,canvasYEnd);
     } else {
-        stroke(red, green, 0);
-        strokeWeight(2*3);
+        stroke(red, yellow, 0);
+        strokeWeight(5);
         line(canvasXStart,canvasYStart,canvasXEnd,canvasYEnd);
     }
+
+    //line(canvasXStart,canvasYStart,canvasXEnd,canvasYEnd);
+
 }
 
 function DetermineState(frame){
@@ -281,46 +407,49 @@ function HandIsTooFar(){
         return false;
     }
 }
-
 function HandleState0(frame) {
     TrainKNNIfNotDoneYet()
     DrawImageToHelpUserPutTheirHandOverTheDevice()
-}
+    DrawImageASL()
 
+}
 function HandleState1(frame) {
     //test
 }
-
 function HandleState2(frame) {
     HandleFrame(frame);
     DrawLowerRightPanel();
-    DetermineWhetherToSwitchDigits()
-    Test()
+    DetermineWhetherToSwitchDigits();
+    DrawLowerLeftPanel();
+    RecordUserData()
+    Test();
 }
+
+
+
+
+
 
 function DrawLowerRightPanel(){
     if (digitToShow == 0) {
-        image(n0, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if(digitToShow == 1){
-        image(n1, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 2){
-        image(n2, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 3){
-        image(n3, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 4){
-        image(n4, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 5){
-        image(n5, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 6){
-        image(n6, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 7){
-        image(n7, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if (digitToShow == 8){
-        image(n8, window.innerWidth/2, window.innerHeight/2, 200, 200);
-    } else if(digitToShow == 9) {
-        image(n9 , window.innerWidth / 2 , window.innerHeight / 2 , 200 , 200);
+        image(A, window.innerWidth/2, window.innerHeight/2, 200, 200);
+        //image(check, 0, window.innerHeight/2, window.innerWidth/2,window.innerHeight/2);
+    }
+    else if (digitToShow == 1) {
+        image(B, window.innerWidth/2, window.innerHeight/2, 200, 200);
+    }
+    else if (digitToShow == 2) {
+        image(C, window.innerWidth/2, window.innerHeight/2, 200, 200);
+    }
+    else if (digitToShow == 3) {
+        image(D, window.innerWidth/2, window.innerHeight/2, 200, 200);
     }
 }
+
+function DrawLowerLeftPanel(){
+
+}
+
 
 function DetermineWhetherToSwitchDigits() {
     if (TimeToSwitchDigits()) {
@@ -333,52 +462,81 @@ function TimeToSwitchDigits() {
     var timeInBetweenInMilliseconds = currentTime - timeSinceLastDigitChange;
     var timeInBetweenInSeconds = timeInBetweenInMilliseconds / 1000;
     console.log(timeInBetweenInSeconds);
-    if (timeInBetweenInSeconds > 7 && m > 0.3) {
-        image(right, 0,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+
+    // The countdown ---> right top
+    if (timeInBetweenInSeconds < 1 ) {
+        //image(n5, 0 , window.innerHeight / 2 , 200 , 200);
+        image(d5, window.innerWidth/2,0,200,200);
+    }else if(timeInBetweenInSeconds < 2){
+        //image(n4, 0 , window.innerHeight / 2 , 200 , 200);
+        image(d4,window.innerWidth/2,0,200,200);
+    }else if(timeInBetweenInSeconds < 3){
+        //image(n3, 0 , window.innerHeight / 2 , 200 , 200);
+        image(d3,window.innerWidth/2,0,200,200);
+    }else if(timeInBetweenInSeconds < 4){
+        //image(n2, 0 , window.innerHeight / 2 , 200 , 200);
+        image(d2,window.innerWidth/2,0,200,200);
+    }else if(timeInBetweenInSeconds < 5){
+        //image(n1, 0 , window.innerHeight / 2 , 200 , 200);
+        image(d1,window.innerWidth/2,0,200,200);
+    }
+
+    if(timeInBetweenInSeconds>4){
+        // var score1 =0, score2 =0, score3 = 0, score4= 0;
+        if(m>0.9){
+            score = 100;
+            score += score;
+        }else if(0.70<m<0.9){
+            score = 75;
+            score += score;
+        }else if(0.45<m<0.7) {
+            score = 50;
+            score += score;
+        }else if(0.25<m<0.45) {
+            score = 25;
+            score += score;
+        }else{
+            score = 0;
+            score += score;
+        }
+        var avgScore = score/5;
+        //document.getElementById("score").innerHTML = "Score: "+ avgScore;
+    }
+
+    if (timeInBetweenInSeconds > 5) {
         timeSinceLastDigitChange = new Date();
         return true;
     } else {
+        if(timeInBetweenInSeconds > 4.5 && m < 0.3) {
+            image(wrong , window.innerWidth/ 2 , window.innerHeight / 2 , 200, 200);
+        }else if(timeInBetweenInSeconds > 4.25 && m > 0.5){
+            image(right , window.innerWidth/ 2 , window.innerHeight / 2 , 200, 200);
+        }
         return false;
-        // image(wrong,0,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
     }
 }
 
-function SwitchDigits() {
-    n=0;
-    if(digitToShow == 0){
+function SwitchDigits(){
+    n=0
+    if (digitToShow == 0){
         digitToShow = 1;
     } else if (digitToShow == 1){
         digitToShow = 2;
-    }
-    else if (digitToShow == 2){
+    } else if (digitToShow == 2){
         digitToShow = 3;
-    }
-    else if (digitToShow == 3){
-        digitToShow = 4;
-    }
-    else if (digitToShow == 4){
-        digitToShow = 5;
-    }
-    else if (digitToShow == 5){
-        digitToShow = 6;
-    }
-    else if (digitToShow == 6){
-        digitToShow = 7;
-    }
-    else if (digitToShow == 7){
-        digitToShow = 8;
-    }
-    else if (digitToShow == 8){
-        digitToShow = 9;
-    }
-    else if (digitToShow == 9){
+    } else if (digitToShow == 3){
         digitToShow = 0;
     }
-
 }
 
 function DrawImageToHelpUserPutTheirHandOverTheDevice(){
-    image(img, 10, 10, window.innerWidth/2, window.innerHeight/2);
+    image(img, 10, 10, window.innerWidth/2.2, window.innerHeight/2.2);
+}
+
+// right top
+function DrawImageASL(){
+    //image(ASL, 10, 10, window.innerWidth/2.2, window.innerHeight/2.2);
+    image(ASL,window.innerWidth/2.2 ,10 ,window.innerWidth/2.2, window.innerHeight/2.2);
 }
 
 function TrainKNNIfNotDoneYet() {
@@ -387,7 +545,6 @@ function TrainKNNIfNotDoneYet() {
         trainingCompleted = true;
     }
 }
-
 Leap.loop(controllerOptions, function(frame){
     clear();
     DetermineState(frame);
@@ -402,124 +559,40 @@ Leap.loop(controllerOptions, function(frame){
     }
 })
 
+
 function Train(){
     trainingCompleted = true;
-    for (var i = 0; i < train0.shape[3]; i++) {
-        features0 = train0.pick(null,null,null,i);
+
+    for (var i = 0; i < trainA.shape[3]; i++) {
+        features0 = trainA.pick(null,null,null,i);
         features0 = features0.reshape(120);
+        //console.log(features.toString());
         knnClassifier.addExample(features0.tolist(), 0);
     }
 
-    for (var i = 0; i < train0.shape[3]; i++) {
-        features0w = train0Wills.pick(null,null,null,i);
-        features0w = features0w.reshape(120);
-        knnClassifier.addExample(features0w.tolist(), 0);
-    }
-
-    for (var i = 0; i < train1.shape[3]; i++) {
-        features1 = train1.pick(null,null,null,i);
+    for (var i = 0; i < trainB.shape[3]; i++) {
+        features1 = trainB.pick(null,null,null,i);
         features1 = features1.reshape(120);
+        //console.log(features.toString());
         knnClassifier.addExample(features1.tolist(), 1);
     }
 
-    for (var i = 0; i < train1.shape[3]; i++) {
-        features1d = train12Davis.pick(null,null,null,i);
-        features1d = features1d.reshape(120);
-        knnClassifier.addExample(features1d.tolist(), 1);
-    }
 
-    for (var i = 0; i < train1.shape[3]; i++) {
-        features1b = train1Bongard.pick(null,null,null,i);
-        features1b = features1b.reshape(120);
-        knnClassifier.addExample(features1b.tolist(), 1);
-    }
-
-    for (var i = 0; i < train2.shape[3]; i++) {
-        features2 = train2.pick(null,null,null,i);
+    for (var i = 0; i < trainC.shape[3]; i++) {
+        features2 = trainC.pick(null,null,null,i);
         features2 = features2.reshape(120);
+        //console.log(features.toString());
         knnClassifier.addExample(features2.tolist(), 2);
     }
 
-    for (var i = 0; i < train3.shape[3]; i++) {
-        features3 = train3.pick(null,null,null,i);
+
+    for (var i = 0; i < trainD.shape[3]; i++) {
+        features3 = trainD.pick(null,null,null,i);
         features3 = features3.reshape(120);
         knnClassifier.addExample(features3.tolist(), 3);
     }
 
-    for (var i = 0; i < train4.shape[3]; i++) {
-        features4 = train4.pick(null,null,null,i);
-        features4 = features4.reshape(120);
-        knnClassifier.addExample(features4.tolist(), 4);
-    }
-
-
-    for (var i = 0; i < train4.shape[3]; i++) {
-        features4b = train4Bongard.pick(null,null,null,i);
-        features4b = features4b.reshape(120);
-        knnClassifier.addExample(features4b.tolist(), 4);
-    }
-
-    for (var i = 0; i < train5.shape[3]; i++) {
-        features5 = train5.pick(null, null, null, i);
-        features5 = features5.reshape(120);
-        knnClassifier.addExample(features5.tolist(), 5);
-    }
-
-    for (var i = 0; i < train5.shape[3]; i++) {
-        features5b = train5Bongard.pick(null, null, null, i);
-        features5b = features5b.reshape(120);
-        knnClassifier.addExample(features5b.tolist(), 5);
-    }
-
-    for (var i = 0; i < train6.shape[3]; i++) {
-        features6 = train6.pick(null,null,null,i);
-        features6 = features6.reshape(120);
-        knnClassifier.addExample(features6.tolist(), 6);
-    }
-
-    for (var i = 0; i < train7.shape[3]; i++) {
-        features7 = train7.pick(null,null,null,i);
-        features7 = features7.reshape(120);
-        knnClassifier.addExample(features7.tolist(), 7);
-    }
-
-    for (var i = 0; i < train7.shape[3]; i++) {
-        feature7v = train7Vega.pick(null,null,null,i);
-        feature7v = feature7v.reshape(120);
-        knnClassifier.addExample(feature7v.tolist(), 7);
-    }
-
-    for (var i = 0; i < train7.shape[3]; i++) {
-        feature7f = train7Fisher.pick(null,null,null,i);
-        feature7f = feature7f.reshape(120);
-        knnClassifier.addExample(feature7f.tolist(), 7);
-    }
-
-    for (var i = 0; i < train7.shape[3]; i++) {
-        feature7m = train7Manian.pick(null,null,null,i);
-        feature7m = feature7m.reshape(120);
-        knnClassifier.addExample(feature7m.tolist(), 7);
-    }
-
-    for (var i = 0; i < train8.shape[3]; i++) {
-        features8 = train8.pick(null,null,null,i);
-        features8 = features8.reshape(120);
-        knnClassifier.addExample(features8.tolist(), 8);
-    }
-
-    for (var i = 0; i < train9.shape[3]; i++) {
-        features9= train9.pick(null,null,null,i);
-        features9 = features9.reshape(120);
-        knnClassifier.addExample(features9.tolist(), 9);
-    }
 }
-
-
-
-
-
-
-
 
 
 

@@ -1,0 +1,99 @@
+<?php
+/*
+ * sitemap
+ */
+?>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CS 228</title>
+    <meta name="author" content="kane Li">
+    <meta name="description" content="A site map.">
+    <style>
+        /* basic CSS*/
+        body{
+            margin: auto;
+            padding: 3%;
+            width: 90%;
+            background-image: linear-gradient(120deg, #eeebeb, #f1dcdc);
+        }
+
+        figure {
+            /*border: thin solid darkslategray;*/
+            border-radius: 3%;
+            padding: 3%;
+            text-align: center;
+        }
+
+        img{
+            border-radius: 3%;
+            max-width: 100%
+        }
+
+        .header{
+            grid-area: header;
+            grid-column: 1 / 3;
+            padding: .3em;
+            margin: .3em;
+        }
+        .public-files{
+            grid-area: public-files;
+            padding: .3em;
+            margin: .3em;
+        }
+
+        .supporting-files{
+            grid-area: supporting-files;
+            padding: .3em;
+            margin: .3em;
+        }
+        .grader-notes{
+            grid-area: grader-notes;
+            padding: .3em;
+            margin: .3em;
+        }
+        .grid-layout{
+            border-bottom: thin dashed navy;
+            display: inline-grid;
+            grid-template-columns: 25% 25% 25%;
+            grid-template-areas: "header header header"
+                    "public-files supporting-files grader-notes";
+            padding: .3em;
+            margin: .3em;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+<h1>CS 228-<em>Final Project</em></h1>
+
+<section class="grid-layout">
+    <h2 class="header">Welcome to ASL game!</h2>
+    <section class="public-files">
+        <h3><a href="PredictGestures2.html">ASL Number</a></h3>
+        <p>Note: Sign ASL number 0 - 9, and the accuracy rate is at least 50 percent before jumping to the next number.</p>
+    </section>
+
+    <section class="supporting-files">
+        <h3><a href="PredictLetter.html">ASL Letter Game</a></h3>
+        <p>Note: Sign ASL Letter, and the accuracy rate is at least 50 percent before jumping to the next letter.</p>
+    </section>
+
+    <section class="grader-notes">
+        <h3><a href="ASLMath.html">ASL Math Game</a></h3>
+        <p>Note: Sign ASL number 0 - 9 first, and the accuracy rate is at least 50 percent before jumping to the next number.</p>
+        <p>When you finished all signs, You will use ASL gestures to answer math questions.</p>
+    </section>
+</section>
+
+<section>
+    <figure style="text-align: center; width: 10em;">
+        <img alt="Kane 2016" src="ASL.png" style="max-width: 300%;">
+    </figure>
+</section>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
     <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
-    <script src="PredictGestures2.js"></script>
+    <script src="ASLMath.js"></script>
     <script src="prepareToDraw.js"></script>
     <!--Train Data-->
     <script src="Dataset/train0Bongard.js"></script>
@@ -26,9 +26,29 @@
     <script src="Dataset/train7Vega.js"></script>
     <script src="Dataset/train8Bongard.js"></script>
     <script src="Dataset/train9Bongard.js"></script>
+    <script src="Math/train10Liu.js"></script>
+    <script src="Math/train11Liu.js"></script>
+    <script src="Math/train12Allison.js"></script>
+    <script src="Math/train12Bongard.js"></script>
+    <script src="Math/train12Davis.js"></script>
+    <script src="Math/train13a.js"></script>
+    <script src="Math/train13b.js"></script>
+    <script src="Math/train13c.js"></script>
+
+
+
+
+
+    <style>
+        table {
+            /*border: 1px solid blueviolet;*/
+            float: right;
+        }
+
+    </style>
 
 </head>
-<body> i
+<body>
 
 <form id="myform">
     <input id="username" type="text" name="username" placeholder="name">
@@ -40,7 +60,7 @@
 </main>
 <ul id="users" style = "color:white">
     <li>user1</li>
-<!--    <li id="kane1_name">kane1</li><li id="kane1_signins">1</li><li id="kane2_name">kane2</li><li id="kane2_signins">1</li><li id="kane3_name">kane3</li><li id="kane3_signins">1</li><li id="kane4_name">kane4</li><li id="kane4_signins">1</li>-->
+    <!--    <li id="kane1_name">kane1</li><li id="kane1_signins">1</li><li id="kane2_name">kane2</li><li id="kane2_signins">1</li><li id="kane3_name">kane3</li><li id="kane3_signins">1</li><li id="kane4_name">kane4</li><li id="kane4_signins">1</li>-->
     <li id="Kane1_name">Rachel1</li><li id="Kane1_signins">1</li>
     <li id="Kane2_name">Rachel2</li><li id="Kane2_signins">1</li>
     <li id="Kane3_name">Rachel3</li><li id="Kane3_signins">1</li>
@@ -51,7 +71,7 @@
         e.preventDefault();
         e.returnValue = '';
     });
-    </script>
+</script>
 
-    </body>
+</body>
 </html>

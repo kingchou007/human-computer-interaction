@@ -1,7 +1,7 @@
 ## Human Computer Interaction(UVM)
-CS228 2020FALL
+CS228 2020 FALL
 
-Deliverable | Update_Date |
+|Deliverable | Update_Date |
 ---- | --- |
 [Del_01](https://www.youtube.com/playlist?list=PLdpg8VRddE60_vZek50X1QUTbByW9rNs-) | 9/07/2020|
 [Del_02](https://www.youtube.com/playlist?list=PLdpg8VRddE61jvtg5A9VjeqlCNZNWF7Vt) | 9/14/2020| 

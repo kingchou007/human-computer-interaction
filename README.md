@@ -13,9 +13,7 @@
 [Del_08](https://youtu.be/ikmecEYJsuA) | 11/02/2020| 
 [Del_09](https://www.youtube.com/playlist?list=PLdpg8VRddE611ikRVGqgraP-VIfSltNXK) | 11/09/2020|
 [Del_10](https://youtube.com/playlist?list=PLdpg8VRddE61ONUFSi9oyp7A21jUg20LU) | 11/16/2020|
-[Interim video1](https://youtu.be/xiq5rARmJkA) | 11/24/2020|
-[Interim video2a](https://youtu.be/DzrAip8wAjA) | 12/01/2020|
-[Interim video2b](https://youtu.be/mY5ctL9TpIE) | 12/01/2020|
-[Interim video3](https://youtu.be/BP9NhRZN4vs) | 12/07/2020|
+<!-- [Interim video1](https://youtu.be/xiq5rARmJkA) | 11/24/2020|
+[Interim video3](https://youtu.be/BP9NhRZN4vs) | 12/07/2020| -->
 [Final](https://youtu.be/ZH-P9LOMy5k) | 12/08/2020|
 ---

@@ -1,5 +1,5 @@
 ## CS228 Human Computer Interaction
- 2020_fall [Syllabus](https://docs.google.com/document/d/1G5yL60Z68wiSUMvl4GYV1LsdAlC8AOFIWde8fyRnU5A/edit)
+<!-- 2020_fall [Syllabus](https://docs.google.com/document/d/1G5yL60Z68wiSUMvl4GYV1LsdAlC8AOFIWde8fyRnU5A/edit) -->
 
 |Deliverable | Update_Date |
 ---- | --- |
